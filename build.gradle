@@ -43,6 +43,16 @@ application {
     // Define the main class for the application.
     mainClassName = 'com.example.kotlinserver.AppKt'
 }
+jar {
+  manifest {
+    attributes 'Main-Class': 'com.example.kotlinserver.AppKt'
+    }
+
+    // The following line is the key to create self-executable jar as the gradle
+    // script needed a way to collect all kotlin files and put them into the
+    // jar.
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}
 
 task stage {
   dependsOn installDist
@@ -74,6 +84,4 @@ task testBoth {
     println 'do last in testBoth'
   }
 }
-
-
 
